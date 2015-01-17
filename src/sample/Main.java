@@ -30,9 +30,8 @@ public class Main extends Application {
 
         board = new Board(gc);
         game = new Game(gc, board);
-        board.draw();
-
         keyListener(scene);
+        board.draw();
         game.gameStart();
         game.draw();
 
@@ -58,9 +57,7 @@ public class Main extends Application {
                         break;
                 }
                 board.draw();
-
                 game.draw();
-                game.scorePrint();
             }
         });
     }

@@ -32,7 +32,10 @@ public class Game {
         for (Tile tile : tiles) {
             tile.draw();
         }
+        scorePrint();
     }
+
+    //TODO move logic;
 
     public void move(Direction d) {
         switch (d) {

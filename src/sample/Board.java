@@ -15,6 +15,7 @@ public class Board {
 
     public Board(GraphicsContext gc) {
         this.gc = gc;
+        boardFreeArrayInit();
     }
 
     public void draw() {

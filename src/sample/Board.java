@@ -33,26 +33,45 @@ public class Board {
         }
     }
 
-//    TODO rewrite boolean;
     public boolean isFree(int[] arr) {
-        return !free[arr[0]][arr[1]];
+        return free[arr[0]][arr[1]];
     }
 
-    public void setBusy(int[] arr) {
-        free[arr[0]][arr[1]] = true;
+    public void boardFreeArrayInit() {
+        for (int i = 0; i < free.length; i++) {
+            for (int j = 0; j < free[i].length; j++) {
+                free[i][j] = true;
+            }
+        }
     }
 
-    public void setFree(int[] arr) {
-        free[arr[0]][arr[1]] = false;
+    public void setBusy(List<Tile> list) {
+        boardFreeArrayInit();
+        for (int i = 0; i < list.size(); i++) {
+            free[list.get(i).getPosition()[0]][list.get(i).getPosition()[1]] = false;
+        }
     }
 
-
+    public List<int[]> freeList() {
+        List<int[]> freeList = new ArrayList<int[]>();
+        for (int i = 0; i < free.length; i++) {
+            for (int j = 0; j < free[i].length; j++) {
+                if (free[i][j]) {
+                    freeList.add(new int[]{i, j});
+                }
+            }
+        }
+        if (freeList.size() == 1) {
+            System.out.println("GameOver");
+        }
+        return freeList;
+    }
 
     //for test
     public void printBoolean() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                System.out.println(i + " " + j + " " + free[i][j]);
+                System.out.println((i+1) + " " + (j+1) + " " + free[i][j]);
             }
         }
     }

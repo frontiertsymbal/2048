@@ -5,13 +5,15 @@ import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Game {
 
     private List<Tile> tiles = new ArrayList<Tile>(16);
-
     private GraphicsContext gc;
     private Board board;
+    private Random rand = new Random();
+
 
     public Game(GraphicsContext gc, Board board) {
         this.gc = gc;
@@ -24,13 +26,25 @@ public class Game {
     }
 
     public void newTile() {
-        tiles.add(new Tile(gc));
-        board.setBusy(tiles.get(tiles.size() - 1).getPosition());
+        //TODO review;
+
+        tiles.add(new Tile(board.freeList().get(rand.nextInt(board.freeList().size())), gc));
+        board.setBusy(tiles);
+//        while(true) {
+//            int[] arr = new int[2];
+//            arr[0] = rand.nextInt(4);
+//            arr[1] = rand.nextInt(4);
+//            if (board.isFree(arr)) {
+//                tiles.add(new Tile(arr, gc));
+//                board.setBusy(tiles);
+//                break;
+//            }else return;
+//        }
     }
 
     public void draw() {
-        for (int i = 0; i < tiles.size(); i++) {
-            tiles.get(i).draw();
+        for (Tile tile : tiles) {
+            tile.draw();
         }
     }
 
@@ -39,17 +53,20 @@ public class Game {
             case UP:
                 for (Tile tile : tiles) {
                     int[] arr = tile.getPosition();
-                    board.setFree(arr);
-                    if (arr[1] == 0) {
-                        board.setBusy(arr);
-                        return;
+                    for (int i = 0; i < 4; i++) {
+                        if (arr[1] == 0) {
+                            break;
+                        }
+                        arr[1]--;
+                        if (!board.isFree(arr)) {
+                            arr[1]++;
+                            break;
+                        }
                     }
-                    arr[1]--;
-                    if (board.isFree(arr)) {
-                        tile.setPosition(arr);
-                        board.setBusy(arr);
-                    } else return;
+                    tile.setPosition(arr);
                 }
+                board.setBusy(tiles);
+                newTile();
                 break;
             case RIGHT:
 
@@ -61,6 +78,7 @@ public class Game {
 
                 break;
         }
+
     }
 
     public void scorePrint() {
@@ -73,5 +91,9 @@ public class Game {
         gc.setFont(new Font(fontSize));
         gc.fillText("SCORE", 440, 55);
         gc.fillText("" + score, 440, 85);
+    }
+
+    public List<Tile> getList() {
+        return tiles;
     }
 }

@@ -13,10 +13,12 @@ public class Tile {
     private int value;
     private Random rand = new Random();
 
-    public Tile(GraphicsContext gc) {
+    public Tile(int[] pos, GraphicsContext gc) {
         this.gc = gc;
-        randomPosition();
+        this.pos = pos;
+        setPosition(pos);
         newTileRandomValueSet();
+        //TODO review;
     }
 
     public void setPosition(int[] pos) {
@@ -26,13 +28,6 @@ public class Tile {
 
     public int[] getPosition () {
         return pos;
-    }
-
-    public void randomPosition() {
-        pos[0] = rand.nextInt(4);
-        pos[1] = rand.nextInt(4);
-        x = Const.arrX[pos[0]];
-        y = Const.arrY[pos[0]];
     }
 
     public void newTileRandomValueSet() {

@@ -32,6 +32,7 @@ public class Main extends Application {
         board = new Board(gc);
         board.init();
         board.draw();
+        board.boardFreeArrayInit();
         keyListener(scene);
 
         game = new Game(gc, board);
@@ -61,6 +62,7 @@ public class Main extends Application {
                 }
                 board.init();
                 board.draw();
+
                 game.draw();
                 game.scorePrint();
             }

@@ -11,6 +11,7 @@ public class Const {
     public static final int CASE_SIZE = 550;
     public static int[] arrX = new int[4];
     public static int[] arrY = new int[4];
+    public static int[] valueArray = new int[]{4,2,2,4,2,2,4,2,2,4};
 
     public static void arrayInit() {
         int y = CASE_Y + Const.INTERVAL;
@@ -22,4 +23,5 @@ public class Const {
             y += Const.INTERVAL + Const.TILE_SIZE;
         }
     }
+
 }

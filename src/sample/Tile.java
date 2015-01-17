@@ -8,7 +8,7 @@ import java.util.Random;
 public class Tile {
     private int x;
     private int y;
-    int[] pos = new int[2];
+    private int[] pos = new int[2];
     private GraphicsContext gc;
     private int value;
     private Random rand = new Random();
@@ -19,33 +19,6 @@ public class Tile {
         setPosition(pos);
         newTileRandomValueSet();
         //TODO review;
-    }
-
-    public void setPosition(int[] pos) {
-        x = Const.arrX[pos[0]];
-        y = Const.arrY[pos[1]];
-    }
-
-    public int[] getPosition () {
-        return pos;
-    }
-
-    public void newTileRandomValueSet() {
-        int index = rand.nextInt(2);
-        switch (index) {
-            case 0:
-                value = 2;
-                break;
-            case 1:
-                value = 4;
-                break;
-        }
-    }
-
-    public void draw() {
-        gc.setFill(ColorFactory.colorSet(value));
-        gc.fillRoundRect(x, y, Const.TILE_SIZE, Const.TILE_SIZE, Const.ANGLE, Const.ANGLE);
-        drawValue();
     }
 
     private void drawValue() {
@@ -73,6 +46,25 @@ public class Tile {
         }
         gc.setFont(new Font(fontSize));
         gc.fillText(val, textX, y + 83);
+    }
+
+    public void setPosition(int[] pos) {
+        x = Const.arrX[pos[0]];
+        y = Const.arrY[pos[1]];
+    }
+
+    public int[] getPosition () {
+        return pos;
+    }
+
+    public void newTileRandomValueSet() {
+        value = Const.valueArray[rand.nextInt(10)];
+    }
+
+    public void draw() {
+        gc.setFill(ColorFactory.colorSet(value));
+        gc.fillRoundRect(x, y, Const.TILE_SIZE, Const.TILE_SIZE, Const.ANGLE, Const.ANGLE);
+        drawValue();
     }
 
     public int getValue() {

@@ -83,8 +83,8 @@ public class Game {
 
     public void scorePrint() {
         int score = 0;
-        for (int i = 0; i < tiles.size(); i++) {
-            score += tiles.get(i).getValue();
+        for (Tile tile : tiles) {
+            score += tile.getValue();
         }
         int fontSize = 30;
         gc.setFill(ColorFactory.colorSet(1));
@@ -93,7 +93,4 @@ public class Game {
         gc.fillText("" + score, 440, 85);
     }
 
-    public List<Tile> getList() {
-        return tiles;
-    }
 }

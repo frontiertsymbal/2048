@@ -28,14 +28,11 @@ public class Main extends Application {
         primaryStage.show();
         Const.arrayInit();
 
-        //TODO Refactoring;
         board = new Board(gc);
-        board.init();
-        board.draw();
-        board.boardFreeArrayInit();
-        keyListener(scene);
-
         game = new Game(gc, board);
+        board.draw();
+
+        keyListener(scene);
         game.gameStart();
         game.draw();
 
@@ -60,7 +57,6 @@ public class Main extends Application {
                         game.move(Direction.LEFT);
                         break;
                 }
-                board.init();
                 board.draw();
 
                 game.draw();

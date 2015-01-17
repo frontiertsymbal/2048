@@ -3,22 +3,18 @@ package sample;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 
-import java.util.Random;
-
 public class Tile {
     private int x;
     private int y;
     private int[] pos = new int[2];
     private GraphicsContext gc;
     private int value;
-    private Random rand = new Random();
 
     public Tile(int[] pos, GraphicsContext gc) {
         this.gc = gc;
         this.pos = pos;
         setPosition(pos);
         newTileRandomValueSet();
-        //TODO review;
     }
 
     private void drawValue() {
@@ -58,7 +54,7 @@ public class Tile {
     }
 
     public void newTileRandomValueSet() {
-        value = Const.valueArray[rand.nextInt(10)];
+        value = Const.valueArray[Const.random(20)];
     }
 
     public void draw() {

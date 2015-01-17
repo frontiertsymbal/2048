@@ -5,14 +5,12 @@ import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Game {
 
     private List<Tile> tiles = new ArrayList<Tile>(16);
     private GraphicsContext gc;
     private Board board;
-    private Random rand = new Random();
 
 
     public Game(GraphicsContext gc, Board board) {
@@ -26,20 +24,8 @@ public class Game {
     }
 
     public void newTile() {
-        //TODO review;
-
-        tiles.add(new Tile(board.freeList().get(rand.nextInt(board.freeList().size())), gc));
+        tiles.add(new Tile(board.freeList().get(Const.random(board.freeList().size())), gc));
         board.setBusy(tiles);
-//        while(true) {
-//            int[] arr = new int[2];
-//            arr[0] = rand.nextInt(4);
-//            arr[1] = rand.nextInt(4);
-//            if (board.isFree(arr)) {
-//                tiles.add(new Tile(arr, gc));
-//                board.setBusy(tiles);
-//                break;
-//            }else return;
-//        }
     }
 
     public void draw() {
@@ -51,22 +37,24 @@ public class Game {
     public void move(Direction d) {
         switch (d) {
             case UP:
-                for (Tile tile : tiles) {
-                    int[] arr = tile.getPosition();
-                    for (int i = 0; i < 4; i++) {
-                        if (arr[1] == 0) {
-                            break;
+                if (board.canMove()) {
+                    for (Tile tile : tiles) {
+                        int[] arr = tile.getPosition();
+                        for (int i = 0; i < 4; i++) {
+                            if (arr[1] == 0) {
+                                break;
+                            }
+                            arr[1]--;
+                            if (!board.isFree(arr)) {
+                                arr[1]++;
+                                break;
+                            }
                         }
-                        arr[1]--;
-                        if (!board.isFree(arr)) {
-                            arr[1]++;
-                            break;
-                        }
+                        tile.setPosition(arr);
                     }
-                    tile.setPosition(arr);
+                    board.setBusy(tiles);
+                    newTile();
                 }
-                board.setBusy(tiles);
-                newTile();
                 break;
             case RIGHT:
 

@@ -25,6 +25,7 @@ public class Main extends Application {
         gc = canvas.getGraphicsContext2D();
         primaryStage.setTitle("2048");
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
         Const.arrayInit();
 

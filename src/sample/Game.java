@@ -40,7 +40,7 @@ public class Game {
     public void move(Direction d) {
         switch (d) {
             case UP:
-                if (board.canMove()) {
+                if (isMovePossible()) {
                     for (Tile tile : tiles) {
                         int[] arr = tile.getPosition();
                         for (int i = 0; i < 4; i++) {
@@ -82,6 +82,65 @@ public class Game {
         gc.setFont(new Font(fontSize));
         gc.fillText("SCORE", 440, 55);
         gc.fillText("" + score, 440, 85);
+    }
+
+    public boolean isMovePossible() {
+        for (Tile tile : tiles) {
+            int[] arr = tile.getPosition();
+            if (arr[0] == 3 && arr[1] == 3) {
+                continue;
+            }
+
+            if (arr[0] == 3) {
+                Tile tmp = getTile(new int[]{arr[0], arr[1] + 1});
+                if (tmp == null) {
+                    return true;
+                } else {
+                    if (tile.getValue() == tmp.getValue()) {
+                        return true;
+                    }
+                }
+            }
+
+            if (arr[1] == 3) {
+                Tile tmp = getTile(new int[]{arr[0]+1, arr[1]});
+                if (tmp == null) {
+                    return true;
+                } else {
+                    if (tile.getValue() == tmp.getValue()) {
+                        return true;
+                    }
+                }
+            }
+
+            Tile tmp = getTile(new int[]{arr[0] + 1, arr[1]});
+            if (tmp == null) {
+                return true;
+            } else {
+                if (tile.getValue() == tmp.getValue()) {
+                    return true;
+                } else {
+                    Tile tmp1 = getTile(new int[]{arr[0], arr[1] + 1});
+                    if (tmp1 == null) {
+                        return true;
+                    } else {
+                        if (tile.getValue() == tmp1.getValue()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public Tile getTile(int[] arr) {
+        for (Tile tile : tiles) {
+            if (tile.getPosition()[0] == arr[0] && tile.getPosition()[1] == arr[1]) {
+                return tile;
+            }
+        }
+        return null;
     }
 
 }

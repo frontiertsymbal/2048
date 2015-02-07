@@ -10,8 +10,6 @@ public class Board {
 
     private GraphicsContext gc;
     private boolean[][] free = new boolean[4][4];
-    private boolean canMove = true;
-
 
     public Board(GraphicsContext gc) {
         this.gc = gc;
@@ -32,10 +30,6 @@ public class Board {
         }
     }
 
-    public boolean isFree(int[] arr) {
-        return free[arr[0]][arr[1]];
-    }
-
     public void setBusy(List<Tile> list) {
         boardFreeArrayInit();
         for (Tile aList : list) {
@@ -52,9 +46,6 @@ public class Board {
                 }
             }
         }
-        if (freeList.size() == 1) {
-            canMove = false;
-        }
         return freeList;
     }
 
@@ -66,7 +57,18 @@ public class Board {
         }
     }
 
-    public boolean canMove(){
-        return canMove;
+    public void gameOverDraw() {
+        gc.setFill(ColorFactory.colorSet(0));
+        gc.fillRoundRect(20, 320, 560, 205, Const.ANGLE, Const.ANGLE);
+        gc.setFill(ColorFactory.colorSet(2));
+        gc.fillRoundRect(25, 325, 550, 195, Const.ANGLE, Const.ANGLE);
+
+        int fontSize = 110;
+        gc.setFill(ColorFactory.colorSet(1111));
+        gc.setFont(new Font(fontSize));
+        gc.fillText("Game Over", 25, 425);
+        fontSize = 30;
+        gc.setFont(new Font(fontSize));
+        gc.fillText("To start new game press Enter.", 90, 500);
     }
 }

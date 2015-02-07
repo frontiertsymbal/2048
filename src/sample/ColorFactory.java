@@ -5,37 +5,40 @@ import javafx.scene.paint.Color;
 public class ColorFactory {
     public static Color colorSet(int index) {
         switch (index) {
+            //TODO find duplicate values and fix;
             case 0:
-                return Color.web("0xcdc1b4");
+                return Color.web("#cdc1b4");
             case 1:
-                return Color.web("0xbbada0");
+                return Color.web("#bbada0");
             case 2:
-                return Color.web("0xeee4da");
+                return Color.web("#eee4da");
             case 4:
-                return Color.web("0xede0c8");
+                return Color.web("#ede0c8");
             case 8:
-                return Color.web("0xf2b179");
+                return Color.web("#f2b179");
             case 10:
-                return Color.web("0x776e65");
+                return Color.web("#776e65");
             case 16:
-                return Color.web("0xf59563");
+                return Color.web("#f59563");
             case 20:
-                return Color.web("0xf9f6f2");
+                return Color.web("#f9f6f2");
             case 32:
-                return Color.web("0xf67c5f");
+                return Color.web("#f67c5f");
             case 64:
-                return Color.web("0xf65e3b");
+                return Color.web("#f65e3b");
             case 128:
-                return Color.web("0xedcf72");
+                return Color.web("#edcf72");
             case 256:
-                return Color.web("0xedcc61");
+                return Color.web("#edcc61");
             case 512:
-                return Color.web("0xedc850");
+                return Color.web("#edc850");
             case 1024:
-                return Color.web("0xedc53f");
+                return Color.web("#edc53f");
             case 2048:
-                return Color.web("0xedc22e");
+                return Color.web("#edc22e");
+            case 1111:
+                return Color.web("#ff6347");
         }
-        return Color.web("0xcdc1b4");
+        return Color.web("#cdc1b4");
     }
 }

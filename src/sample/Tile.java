@@ -3,8 +3,6 @@ package sample;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 
-import java.util.Arrays;
-
 public class Tile {
     private int x;
     private int y;
@@ -47,6 +45,7 @@ public class Tile {
     }
 
     public void setPosition(int[] pos) {
+        this.pos = pos;
         x = Const.arrX[pos[0]];
         y = Const.arrY[pos[1]];
     }
@@ -73,11 +72,4 @@ public class Tile {
         this.value = value;
     }
 
-    @Override
-    public String toString() {
-        return "Tile{" +
-                "pos=" + Arrays.toString(pos) +
-                ", value=" + value +
-                '}';
-    }
 }

@@ -56,9 +56,14 @@ public class Main extends Application {
                     case LEFT:
                         game.move(Direction.LEFT);
                         break;
+                    case ENTER:
+                        game.newGame();
                 }
                 board.draw();
                 game.draw();
+                if (Const.gameOver) {
+                    board.gameOverDraw();
+                }
             }
         });
     }

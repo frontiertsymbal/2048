@@ -12,10 +12,16 @@ public class Game {
     private GraphicsContext gc;
     private Board board;
 
-
     public Game(GraphicsContext gc, Board board) {
         this.gc = gc;
         this.board = board;
+    }
+
+    public void newGame() {
+        tiles = new ArrayList<Tile>(16);
+        board.setBusy(tiles);
+        Const.gameOver = false;
+        gameStart();
     }
 
     public void gameStart() {
@@ -24,8 +30,12 @@ public class Game {
     }
 
     public void newTile() {
-        tiles.add(new Tile(board.freeList().get(Const.random(board.freeList().size())), gc));
-        board.setBusy(tiles);
+        if (board.freeList().size() == 0) {
+            Const.gameOver = true;
+        } else {
+            tiles.add(new Tile(board.freeList().get(Const.random(board.freeList().size())), gc));
+            board.setBusy(tiles);
+        }
     }
 
     public void draw() {
@@ -33,61 +43,6 @@ public class Game {
             tile.draw();
         }
         scorePrint();
-    }
-
-    //TODO move logic;
-
-    public void move(Direction d) {
-        switch (d) {
-            case UP:
-                if (isMovePossible()) {
-                    for (Tile tile : tiles) {
-                        int[] arr = tile.getPosition();
-                        for (int i = 0; i < 4; i++) {
-                            if (arr[1] == 0) {
-                                break;
-                            }
-                            arr[1]--;
-                            if (!board.isFree(arr)) {
-                                arr[1]++;
-                                break;
-                            }
-                        }
-                        tile.setPosition(arr);
-                    }
-                    board.setBusy(tiles);
-                    newTile();
-                    arrayPrint();
-                }
-                break;
-            case RIGHT:
-
-                break;
-            case DOWN:
-
-                break;
-            case LEFT:
-                if (isMovePossible()) {
-                    tiles = moveLeft();
-                    board.setBusy(tiles);
-                    newTile();
-                    arrayPrint();
-                }
-                break;
-        }
-
-    }
-
-    public void scorePrint() {
-        int score = 0;
-        for (Tile tile : tiles) {
-            score += tile.getValue();
-        }
-        int fontSize = 30;
-        gc.setFill(ColorFactory.colorSet(1));
-        gc.setFont(new Font(fontSize));
-        gc.fillText("SCORE", 440, 55);
-        gc.fillText("" + score, 440, 85);
     }
 
     public boolean isMovePossible() {
@@ -140,56 +95,71 @@ public class Game {
         return false;
     }
 
-    public Tile[][] getTilesArray() {
-        Tile[][] tileArray = new Tile[4][4];
-        for (int i = 0; i < tiles.size(); i++) {
-            tileArray[tiles.get(i).getPosition()[0]][tiles.get(i).getPosition()[1]] = tiles.get(i);
+    public void move(Direction d) {
+        switch (d) {
+            case UP:
+
+                break;
+            case RIGHT:
+
+                break;
+            case DOWN:
+
+                break;
+            case LEFT:
+                if (isMovePossible()) {
+                    tiles = moveLeft();
+                    board.setBusy(tiles);
+                    newTile();
+                }
+                break;
         }
-        return tileArray;
+
     }
 
-    public void arrayPrint() { //FOT TEST
-        Tile[][] tilesArray = getTilesArray();
-        for (int i = 0; i < tilesArray.length; i++) {
-            for (int j = 0; j < tilesArray[i].length; j++) {
-                if (tilesArray[i][j] != null) {
-                    System.out.println(tilesArray[i][j].toString());
-                }
-            }
-        }
-        System.out.println("=========================");
-    }
+    //TODO verifications, move loops.
 
     public List<Tile> moveLeft() {
         List<Tile> list = new ArrayList<Tile>();
         Tile[][] tilesArray = getTilesArray();
-        for (int i = 0; i < tilesArray.length; i++) {
-            for (int j = 0; j < tilesArray[i].length; j++) {
-                if (tilesArray[i][j] != null && j < 3) {
-                    if (tilesArray[i][j + 1] != null) {
-                        if (tilesArray[i][j].getValue() != tilesArray[i][j + 1].getValue()) {
-                            continue;
-                        } else {
-                            tilesArray[i][j].setValue(tilesArray[i][j].getValue()*2);
-                            tilesArray[i][j + 1] = null;
-                        }
-                    }
-                } else {
-                    if (tilesArray[i][j] == null && tilesArray[i][j+1] != null) {
-                        tilesArray[i][j] = tilesArray[i][j+1];
-                        tilesArray[i][j+1] = null;
-                    }
-                }
-            }
-        }
-        for (int i = 0; i < tilesArray.length; i++) {
+
+
+        for (int i = 1; i < tilesArray.length; i++) {
             for (int j = 0; j < tilesArray[i].length; j++) {
                 if (tilesArray[i][j] != null) {
-                   list.add(tilesArray[i][j]);
+                    if (tilesArray[i - 1][j] != null) {
+                        if (tilesArray[i][j].getValue() == tilesArray[i - 1][j].getValue()) {
+                            tilesArray[i - 1][j].setValue(tilesArray[i - 1][j].getValue() * 2);
+                            tilesArray[i][j] = null;
+                        }
+                    } else {
+                        tilesArray[i][j].setPosition(new int[]{i - 1, j});
+                        tilesArray[i - 1][j] = tilesArray[i][j];
+                        tilesArray[i][j] = null;
+                    }
                 }
             }
         }
+        tilesArrayToList(list, tilesArray);
         return list;
+    }
+
+    private void tilesArrayToList(List<Tile> list, Tile[][] tilesArray) {
+        for (Tile[] aTilesArray : tilesArray) {
+            for (Tile anATilesArray : aTilesArray) {
+                if (anATilesArray != null) {
+                    list.add(anATilesArray);
+                }
+            }
+        }
+    }
+
+    public Tile[][] getTilesArray() {
+        Tile[][] tileArray = new Tile[4][4];
+        for (Tile tile : tiles) {
+            tileArray[tile.getPosition()[0]][tile.getPosition()[1]] = tile;
+        }
+        return tileArray;
     }
 
     public Tile getTile(int[] arr) {
@@ -199,6 +169,18 @@ public class Game {
             }
         }
         return null;
+    }
+
+    public void scorePrint() {
+        int score = 0;
+        for (Tile tile : tiles) {
+            score += tile.getValue();
+        }
+        int fontSize = 30;
+        gc.setFill(ColorFactory.colorSet(1));
+        gc.setFont(new Font(fontSize));
+        gc.fillText("SCORE", 440, 55);
+        gc.fillText("" + score, 440, 85);
     }
 
 }

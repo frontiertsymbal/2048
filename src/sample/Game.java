@@ -119,18 +119,19 @@ public class Game {
 
     //TODO verifications, move loops.
 
+    public int count = 0;
+    public boolean[] need = {true, true, true, true};
     public List<Tile> moveLeft() {
         List<Tile> list = new ArrayList<Tile>();
         Tile[][] tilesArray = getTilesArray();
-
-
         for (int i = 1; i < tilesArray.length; i++) {
             for (int j = 0; j < tilesArray[i].length; j++) {
                 if (tilesArray[i][j] != null) {
                     if (tilesArray[i - 1][j] != null) {
-                        if (tilesArray[i][j].getValue() == tilesArray[i - 1][j].getValue()) {
+                        if (tilesArray[i][j].getValue() == tilesArray[i - 1][j].getValue() && need[j]) {
                             tilesArray[i - 1][j].setValue(tilesArray[i - 1][j].getValue() * 2);
                             tilesArray[i][j] = null;
+                            need[j] = false;
                         }
                     } else {
                         tilesArray[i][j].setPosition(new int[]{i - 1, j});
@@ -141,6 +142,16 @@ public class Game {
             }
         }
         tilesArrayToList(list, tilesArray);
+        count++;
+        if (count <= 3) {
+            moveLeft();
+        } else {
+            count = 0;
+        }
+        for (int i = 0; i < need.length; i++) {
+            need[i] = true;
+        }
+
         return list;
     }
 

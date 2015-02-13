@@ -13,8 +13,11 @@ public class Game {
     private Board board;
 
     public int count = 0;
-    public int actionCount = 0;
     public boolean[] need = {true, true, true, true};
+
+    //for test
+    public int actionCount = 0;
+
 
     public Game(GraphicsContext gc, Board board) {
         this.gc = gc;
@@ -101,6 +104,7 @@ public class Game {
     }
 
     public void move(Direction d) {
+        Tile[][] tilesArray = getTilesArray();
         switch (d) {
             case UP:
 
@@ -113,7 +117,6 @@ public class Game {
                 break;
             case LEFT:
                 if (isMovePossible()) {
-                    Tile[][] tilesArray = getTilesArray();
                     tiles = moveLeft(tilesArray);
                     board.setBusy(tiles);
                     newTile();
@@ -122,7 +125,6 @@ public class Game {
                 tilesPrint(tiles);
                 break;
         }
-
     }
 
     //TODO verifications, move loops.
@@ -158,6 +160,17 @@ public class Game {
         }
 
         return tilesArrayToList(tilesArray);
+    }
+
+    //not works
+    public Tile[][] arrayRotate(Tile[][] tiles) {
+        Tile[][] result = new Tile[4][4];
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[i].length; j++) {
+                result[j][4 - 1 - i] = tiles[i][j];
+            }
+        }
+        return result;
     }
 
     private List<Tile> tilesArrayToList(Tile[][] tilesArray) {
@@ -201,6 +214,7 @@ public class Game {
         gc.fillText("" + score, 440, 85);
     }
 
+    //for test;
     public void tilesPrint(List<Tile> list) {
         for (int i = 0; i < list.size(); i++) {
             System.out.println((i + 1) + " | " + list.get(i).toString());

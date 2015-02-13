@@ -15,9 +15,6 @@ public class Game {
     public int count = 0;
     public boolean[] need = {true, true, true, true};
 
-    //for test
-    public int actionCount = 0;
-
 
     public Game(GraphicsContext gc, Board board) {
         this.gc = gc;
@@ -37,12 +34,11 @@ public class Game {
     }
 
     public void newTile() {
-        if (board.freeList().size() == 0) {
+        if (board.freeList().size() == 0 && isMovePossible()) {
             Const.gameOver = true;
         } else {
             tiles.add(new Tile(board.freeList().get(Const.random(board.freeList().size())), gc));
             board.setBusy(tiles);
-            System.out.println("NewTile");
         }
     }
 
@@ -107,13 +103,25 @@ public class Game {
         Tile[][] tilesArray = getTilesArray();
         switch (d) {
             case UP:
-
+                if (isMovePossible()) {
+                    tiles = moveUp(tilesArray);
+                    board.setBusy(tiles);
+                    newTile();
+                }
                 break;
             case RIGHT:
-
+                if (isMovePossible()) {
+                    tiles = moveRight(tilesArray);
+                    board.setBusy(tiles);
+                    newTile();
+                }
                 break;
             case DOWN:
-
+                if (isMovePossible()) {
+                    tiles = moveDown(tilesArray);
+                    board.setBusy(tiles);
+                    newTile();
+                }
                 break;
             case LEFT:
                 if (isMovePossible()) {
@@ -121,13 +129,9 @@ public class Game {
                     board.setBusy(tiles);
                     newTile();
                 }
-                actionCount++;
-                tilesPrint(tiles);
                 break;
         }
     }
-
-    //TODO verifications, move loops.
 
     public List<Tile> moveLeft(Tile[][] tilesArray) {
         for (int j = 0; j < tilesArray.length; j++) {
@@ -138,8 +142,6 @@ public class Game {
                             tilesArray[i - 1][j].setValue(tilesArray[i - 1][j].getValue() * 2);
                             tilesArray[i][j] = null;
                             need[j] = false;
-                            System.out.println("Sum");
-                            System.out.println(actionCount);
                         }
                     } else {
                         tilesArray[i][j].setPosition(new int[]{i - 1, j});
@@ -162,12 +164,48 @@ public class Game {
         return tilesArrayToList(tilesArray);
     }
 
-    //not works
+    public List<Tile> moveRight(Tile[][] tilesArray) {
+        tilesArray = arrayRotate(tilesArray);
+        tilesArray = arrayRotate(tilesArray);
+        tilesArray = getTilesArray(moveLeft(tilesArray));
+        tilesArray = arrayRotate(tilesArray);
+        tilesArray = arrayRotate(tilesArray);
+
+        return tilesArrayToList(tilesArray);
+
+    }
+
+    public List<Tile> moveUp(Tile[][] tilesArray) {
+        tilesArray = arrayRotate(tilesArray);
+        tilesArray = getTilesArray(moveLeft(tilesArray));
+        tilesArray = arrayRotate(tilesArray);
+        tilesArray = arrayRotate(tilesArray);
+        tilesArray = arrayRotate(tilesArray);
+
+        return tilesArrayToList(tilesArray);
+
+    }
+
+    public List<Tile> moveDown(Tile[][] tilesArray) {
+        tilesArray = arrayRotate(tilesArray);
+        tilesArray = arrayRotate(tilesArray);
+        tilesArray = arrayRotate(tilesArray);
+        tilesArray = getTilesArray(moveLeft(tilesArray));
+        tilesArray = arrayRotate(tilesArray);
+
+        return tilesArrayToList(tilesArray);
+
+    }
+
     public Tile[][] arrayRotate(Tile[][] tiles) {
         Tile[][] result = new Tile[4][4];
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles[i].length; j++) {
-                result[j][4 - 1 - i] = tiles[i][j];
+                result[j][tiles.length - 1 - i] = tiles[i][j];
+                int[] arr = {j, tiles.length - 1 - i};
+                if (result[j][tiles.length - 1 - i] != null) {
+                    result[j][tiles.length - 1 - i].setPosition(arr);
+                }
             }
         }
         return result;
@@ -193,6 +231,14 @@ public class Game {
         return tileArray;
     }
 
+    public Tile[][] getTilesArray(List<Tile> list) {
+        Tile[][] tileArray = new Tile[4][4];
+        for (Tile tile : list) {
+            tileArray[tile.getPosition()[0]][tile.getPosition()[1]] = tile;
+        }
+        return tileArray;
+    }
+
     public Tile getTile(int[] arr) {
         for (Tile tile : tiles) {
             if (tile.getPosition()[0] == arr[0] && tile.getPosition()[1] == arr[1]) {
@@ -212,14 +258,6 @@ public class Game {
         gc.setFont(new Font(fontSize));
         gc.fillText("SCORE", 440, 55);
         gc.fillText("" + score, 440, 85);
-    }
-
-    //for test;
-    public void tilesPrint(List<Tile> list) {
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println((i + 1) + " | " + list.get(i).toString());
-        }
-        System.out.println("====================================================================");
     }
 
 }

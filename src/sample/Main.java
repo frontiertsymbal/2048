@@ -62,7 +62,7 @@ public class Main extends Application {
                 board.draw();
                 game.draw();
                 if (Const.gameOver) {
-                    //TODO add isMovePossible() verify;
+                    System.out.println("Game Over");
                     board.gameOverDraw();
                 }
             }

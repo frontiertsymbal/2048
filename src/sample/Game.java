@@ -89,32 +89,24 @@ public class Game {
         Tile[][] tilesArray = getTilesArray();
         switch (d) {
             case UP:
-                if (isMovePossible()) {
-                    tiles = moveUp(tilesArray);
-                    board.setBusy(tiles);
-                    newTile();
-                }
+                tiles = moveUp(tilesArray);
+                board.setBusy(tiles);
+                newTile();
                 break;
             case RIGHT:
-                if (isMovePossible()) {
-                    tiles = moveRight(tilesArray);
-                    board.setBusy(tiles);
-                    newTile();
-                }
+                tiles = moveRight(tilesArray);
+                board.setBusy(tiles);
+                newTile();
                 break;
             case DOWN:
-                if (isMovePossible()) {
-                    tiles = moveDown(tilesArray);
-                    board.setBusy(tiles);
-                    newTile();
-                }
+                tiles = moveDown(tilesArray);
+                board.setBusy(tiles);
+                newTile();
                 break;
             case LEFT:
-                if (isMovePossible()) {
-                    tiles = moveLeft(tilesArray);
-                    board.setBusy(tiles);
-                    newTile();
-                }
+                tiles = moveLeft(tilesArray);
+                board.setBusy(tiles);
+                newTile();
                 break;
         }
     }

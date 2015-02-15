@@ -71,4 +71,5 @@ public class Board {
         gc.setFont(new Font(fontSize));
         gc.fillText("To start new game press Enter.", 90, 500);
     }
+
 }

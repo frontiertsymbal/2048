@@ -45,23 +45,31 @@ public class Main extends Application {
                 gc.clearRect(0, 0, Const.CANVAS_X, Const.CANVAS_Y);
                 switch (event.getCode()) {
                     case UP:
-                        game.move(Direction.UP);
+                        if (game.isMovePossible()) {
+                            game.move(Direction.UP);
+                        }
                         break;
                     case RIGHT:
-                        game.move(Direction.RIGHT);
+                        if (game.isMovePossible()) {
+                            game.move(Direction.RIGHT);
+                        }
                         break;
                     case DOWN:
-                        game.move(Direction.DOWN);
+                        if (game.isMovePossible()) {
+                            game.move(Direction.DOWN);
+                        }
                         break;
                     case LEFT:
-                        game.move(Direction.LEFT);
+                        if (game.isMovePossible()) {
+                            game.move(Direction.LEFT);
+                        }
                         break;
                     case ENTER:
                         game.newGame();
                 }
                 board.draw();
                 game.draw();
-                if (Const.gameOver) {
+                if (!game.isMovePossible()) {
                     System.out.println("Game Over");
                     board.gameOverDraw();
                 }

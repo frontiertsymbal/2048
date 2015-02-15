@@ -24,7 +24,6 @@ public class Game {
     public void newGame() {
         tiles = new ArrayList<Tile>(16);
         board.setBusy(tiles);
-        Const.gameOver = false;
         gameStart();
     }
 
@@ -34,9 +33,7 @@ public class Game {
     }
 
     public void newTile() {
-        if (board.freeList().size() == 0 && isMovePossible()) {
-            Const.gameOver = true;
-        } else {
+        if (board.freeList().size() != 0) {
             tiles.add(new Tile(board.freeList().get(Const.random(board.freeList().size())), gc));
             board.setBusy(tiles);
         }
@@ -50,46 +47,35 @@ public class Game {
     }
 
     public boolean isMovePossible() {
-        for (Tile tile : tiles) {
-            int[] arr = tile.getPosition();
-            if (arr[0] == 3 && arr[1] == 3) {
-                continue;
-            }
-
-            if (arr[0] == 3) {
-                Tile tmp = getTile(new int[]{arr[0], arr[1] + 1});
-                if (tmp == null) {
-                    return true;
+        Tile[][] tilesArray = getTilesArray();
+        int[][] arr = new int[4][4];
+        for (int i = 0; i < tilesArray.length; i++) {
+            for (int j = 0; j < tilesArray[i].length; j++) {
+                if (tilesArray[i][j] == null) {
+                    arr[i][j] = 0;
                 } else {
-                    if (tile.getValue() == tmp.getValue()) {
-                        return true;
-                    }
+                    arr[i][j] = tilesArray[i][j].getValue();
                 }
             }
+        }
 
-            if (arr[1] == 3) {
-                Tile tmp = getTile(new int[]{arr[0] + 1, arr[1]});
-                if (tmp == null) {
-                    return true;
-                } else {
-                    if (tile.getValue() == tmp.getValue()) {
+        for (int i = 0; i <= 3; i++) {
+            for (int j = 0; j <= 3; j++) {
+                if (i != 3 && j != 3) {
+                    if (arr[i][j] == 0 || arr[i + 1][j] == 0 || arr[i][j + 1] == 0) {
                         return true;
                     }
-                }
-            }
-
-            Tile tmp = getTile(new int[]{arr[0] + 1, arr[1]});
-            if (tmp == null) {
-                return true;
-            } else {
-                if (tile.getValue() == tmp.getValue()) {
-                    return true;
-                } else {
-                    Tile tmp1 = getTile(new int[]{arr[0], arr[1] + 1});
-                    if (tmp1 == null) {
+                    if (arr[i][j] == arr[i + 1][j] || arr[i][j] == arr[i][j + 1]) {
                         return true;
-                    } else {
-                        if (tile.getValue() == tmp1.getValue()) {
+                    }
+                } else {
+                    if (i == 3 && j != 3) {
+                        if (arr[i][j + 1] == 0 || arr[i][j] == arr[i][j + 1]) {
+                            return true;
+                        }
+                    }
+                    if (j == 3 && i != 3) {
+                        if (arr[i + 1][j] == 0 || arr[i][j] == arr[i + 1][j]) {
                             return true;
                         }
                     }
@@ -237,15 +223,6 @@ public class Game {
             tileArray[tile.getPosition()[0]][tile.getPosition()[1]] = tile;
         }
         return tileArray;
-    }
-
-    public Tile getTile(int[] arr) {
-        for (Tile tile : tiles) {
-            if (tile.getPosition()[0] == arr[0] && tile.getPosition()[1] == arr[1]) {
-                return tile;
-            }
-        }
-        return null;
     }
 
     public void scorePrint() {

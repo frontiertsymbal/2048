@@ -5,7 +5,6 @@ import javafx.scene.paint.Color;
 public class ColorFactory {
     public static Color colorSet(int index) {
         switch (index) {
-            //TODO find duplicate values and fix;
             case 0:
                 return Color.web("#cdc1b4");
             case 1:

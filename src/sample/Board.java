@@ -49,7 +49,7 @@ public class Board {
         return freeList;
     }
 
-    public void boardFreeArrayInit() {
+    private void boardFreeArrayInit() {
         for (int i = 0; i < free.length; i++) {
             for (int j = 0; j < free[i].length; j++) {
                 free[i][j] = true;
@@ -69,7 +69,38 @@ public class Board {
         gc.fillText("Game Over", 25, 425);
         fontSize = 30;
         gc.setFont(new Font(fontSize));
-        gc.fillText("To start new game press Enter.", 90, 500);
+        gc.fillText("To start new game press Enter.", 97, 500);
+    }
+
+    public void youWinDraw() {
+        gc.setFill(ColorFactory.colorSet(0));
+        gc.fillRoundRect(20, 320, 560, 205, Const.ANGLE, Const.ANGLE);
+        gc.setFill(ColorFactory.colorSet(2));
+        gc.fillRoundRect(25, 325, 550, 195, Const.ANGLE, Const.ANGLE);
+
+        int fontSize = 110;
+        gc.setFill(ColorFactory.colorSet(1111));
+        gc.setFont(new Font(fontSize));
+        gc.fillText("You Win", 100, 425);
+        fontSize = 30;
+        gc.setFont(new Font(fontSize));
+        gc.fillText("To start new game press Enter.", 97, 500);
+    }
+
+    public void scorePrint(int score) {
+        int fontSize = 30;
+        gc.setFill(ColorFactory.colorSet(1));
+        gc.setFont(new Font(fontSize));
+        gc.fillText("SCORE", 250, 55);
+        gc.fillText("" + score, 250, 85);
+    }
+
+    public void bestScorePrint(int bestScore) {
+        int fontSize = 30;
+        gc.setFill(ColorFactory.colorSet(1));
+        gc.setFont(new Font(fontSize));
+        gc.fillText("BEST SCORE", 405, 55);
+        gc.fillText("" + bestScore, 405, 85);
     }
 
 }

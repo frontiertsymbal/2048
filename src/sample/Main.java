@@ -27,15 +27,14 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
+
         Const.arrayInit();
 
         board = new Board(gc);
         game = new Game(gc, board);
         keyListener(scene);
-        board.draw();
         game.gameStart();
-        game.draw();
-
+        drawGame();
     }
 
     private void keyListener(Scene scene) {
@@ -43,6 +42,7 @@ public class Main extends Application {
             @Override
             public void handle(KeyEvent event) {
                 gc.clearRect(0, 0, Const.CANVAS_X, Const.CANVAS_Y);
+                //TODO isPossibleAddiction
                 switch (event.getCode()) {
                     case UP:
                         if (game.isMovePossible()) {
@@ -66,15 +66,31 @@ public class Main extends Application {
                         break;
                     case ENTER:
                         game.newGame();
+                        break;
                 }
-                board.draw();
-                game.draw();
-                if (!game.isMovePossible()) {
-                    System.out.println("Game Over");
-                    board.gameOverDraw();
+                drawGame();
+
+                if (game.getScore() > game.getBestScore()) {
+                    game.setBestScore(game.getScore());
                 }
+                
+                if (game.isWin()) {
+                    board.youWinDraw();
+                } else {
+                    if (!game.isMovePossible()) {
+                        board.gameOverDraw();
+                    }
+                }
+
             }
         });
+    }
+
+    public void drawGame() {
+        board.draw();
+        game.draw();
+        board.scorePrint(game.getScore());
+        board.bestScorePrint(game.getBestScore());
     }
 
     public static void main(String[] args) {

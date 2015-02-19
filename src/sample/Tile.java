@@ -3,8 +3,6 @@ package sample;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 
-import java.util.Arrays;
-
 public class Tile {
     private int x;
     private int y;
@@ -57,7 +55,7 @@ public class Tile {
     }
 
     public void newTileRandomValueSet() {
-        value = Const.valueArray[Const.random(20)];
+        value = Const.valueArray[Const.random(Const.valueArray.length)];
     }
 
     public void draw() {
@@ -74,8 +72,4 @@ public class Tile {
         this.value = value;
     }
 
-    @Override
-    public String toString() {
-        return "value=" + value + ", pos=" + Arrays.toString(pos);
-    }
 }

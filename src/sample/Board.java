@@ -3,17 +3,13 @@ package sample;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Board {
 
     private GraphicsContext gc;
-    private boolean[][] free = new boolean[4][4];
+
 
     public Board(GraphicsContext gc) {
         this.gc = gc;
-        boardFreeArrayInit();
     }
 
     public void draw() {
@@ -26,33 +22,6 @@ public class Board {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 gc.fillRoundRect(Const.arrX[i], Const.arrY[j], Const.TILE_SIZE, Const.TILE_SIZE, Const.ANGLE, Const.ANGLE);
-            }
-        }
-    }
-
-    public void setBusy(List<Tile> list) {
-        boardFreeArrayInit();
-        for (Tile aList : list) {
-            free[aList.getPosition()[0]][aList.getPosition()[1]] = false;
-        }
-    }
-
-    public List<int[]> freeList() {
-        List<int[]> freeList = new ArrayList<int[]>();
-        for (int i = 0; i < free.length; i++) {
-            for (int j = 0; j < free[i].length; j++) {
-                if (free[i][j]) {
-                    freeList.add(new int[]{i, j});
-                }
-            }
-        }
-        return freeList;
-    }
-
-    private void boardFreeArrayInit() {
-        for (int i = 0; i < free.length; i++) {
-            for (int j = 0; j < free[i].length; j++) {
-                free[i][j] = true;
             }
         }
     }

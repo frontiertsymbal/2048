@@ -9,20 +9,18 @@ public class Game {
 
     private List<Tile> tiles = new ArrayList<Tile>(16);
     private GraphicsContext gc;
-    private Board board;
     private int score = 0;
     private int bestScore = 0;
     private int count = 0;
     private boolean[] need = {true, true, true, true};
 
-    public Game(GraphicsContext gc, Board board) {
+    public Game(GraphicsContext gc) {
         this.gc = gc;
-        this.board = board;
     }
 
     public void newGame() {
         tiles = new ArrayList<Tile>(16);
-        board.setBusy(tiles);
+        Const.setBusy(tiles);
         score = 0;
         gameStart();
     }
@@ -33,9 +31,9 @@ public class Game {
     }
 
     private void newTile() {
-        if (board.freeList().size() != 0) {
-            tiles.add(new Tile(board.freeList().get(Const.random(board.freeList().size())), gc));
-            board.setBusy(tiles);
+        if (Const.freeList().size() != 0) {
+            tiles.add(new Tile(Const.freeList().get(Const.random(Const.freeList().size())), gc));
+            Const.setBusy(tiles);
         }
     }
 
@@ -46,27 +44,26 @@ public class Game {
     }
 
     public void move(Direction d) {
-        //TODO correct logic
         Tile[][] tilesArray = getTilesArray();
         switch (d) {
             case UP:
                 tiles = moveUp(tilesArray);
-                board.setBusy(tiles);
+                Const.setBusy(tiles);
                 newTile();
                 break;
             case RIGHT:
                 tiles = moveRight(tilesArray);
-                board.setBusy(tiles);
+                Const.setBusy(tiles);
                 newTile();
                 break;
             case DOWN:
                 tiles = moveDown(tilesArray);
-                board.setBusy(tiles);
+                Const.setBusy(tiles);
                 newTile();
                 break;
             case LEFT:
                 tiles = moveLeft(tilesArray);
-                board.setBusy(tiles);
+                Const.setBusy(tiles);
                 newTile();
                 break;
         }

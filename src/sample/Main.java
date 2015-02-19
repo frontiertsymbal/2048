@@ -28,10 +28,10 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
 
-        Const.arrayInit();
+        Const.arraysInit();
 
         board = new Board(gc);
-        game = new Game(gc, board);
+        game = new Game(gc);
         keyListener(scene);
         game.gameStart();
         drawGame();
@@ -42,7 +42,6 @@ public class Main extends Application {
             @Override
             public void handle(KeyEvent event) {
                 gc.clearRect(0, 0, Const.CANVAS_X, Const.CANVAS_Y);
-                //TODO isPossibleAddiction
                 switch (event.getCode()) {
                     case UP:
                         if (game.isMovePossible()) {
